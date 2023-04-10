@@ -82,10 +82,10 @@ project/
 
 ```
 <br>
-Apps /: Application code, including the controllers, models, and views in the MVC.<br>
-Core /: Core code directory, including the controller base class, model base class, database base class, and routing base class.<br>
-public /: Public directory of the Web server, including front-end resources and entry files.<br>
-config /: Profiles, including database and routing configurations.<br>
-vendor /: Third-party dependency library.<br>
-.htaccess: The configuration file used for the Apache server.<br>
-README.md: Description document of the project.
+<b>Apps/: </b> &nbsp;&nbsp;<i>Application code, including the controllers, models, and views in the MVC.</i><br>
+<b>Core/: </b> &nbsp;&nbsp;<i>Core code directory, including the controller base class, model base class, database base class, and routing base class.</i><br>
+<b>public/: </b> &nbsp;&nbsp;<i>Public directory of the Web server, including front-end resources and entry files.</i><br>
+<b>config/: </b> &nbsp;&nbsp;<i>Profiles, including database and routing configurations.</i><br>
+<b>vendor/: </b> &nbsp;&nbsp;<i>Third-party dependency library.</i><br>
+<b>.htaccess: </b> &nbsp;&nbsp;<i>The configuration file used for the Apache server.</i><br>
+<b>README.md: </b> &nbsp;&nbsp;<i>Description document of the project.</i>

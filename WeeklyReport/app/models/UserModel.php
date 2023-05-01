@@ -31,6 +31,26 @@ class UserModel extends Model
 	}
 
    /**
+	* Get the role of a user by username.
+	* 
+	* @param string $username The username of the user to get the password for.
+	* @return string|null The role of the user if found, or null if not found.
+	*/
+	public function getUserRole($username)
+	{
+		$table = 'users';
+		$target = 'role';
+		$data = array(
+			'username' => $username
+		);
+		$result = $this->db->select($table, $target, $data);
+		if (!empty($result)) {
+			return $result[0][$target];
+		}
+		return null;
+	}
+	
+   /**
 	* Check if a user with the given username exists.
 	* 
 	* @param string $username The username to check for.

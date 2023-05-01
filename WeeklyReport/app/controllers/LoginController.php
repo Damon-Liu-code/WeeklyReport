@@ -26,11 +26,13 @@ class LoginController extends Controller {
         $password = $_POST['password'];
 		
         $db_pwd = $userModel->getUserPassword($username);
+		$role = $userModel->getUserRole($username);
 
 		session_start();
         if ($db_pwd) {
             if (check_password($password, $db_pwd)) {
                 $_SESSION['username'] = $username;
+                $_SESSION['role'] = $role;
                 header('Location: '. Domain_Name );
                 exit();
             } else {

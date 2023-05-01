@@ -1,8 +1,7 @@
 <?php
 
 require_once '../app/functions.php';
-
-session_start();
+require_once '../app/auth.php';
 
 // Check if there is any alert message stored in session
 if (isset($_SESSION['alert'])) {

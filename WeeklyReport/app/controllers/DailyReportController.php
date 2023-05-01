@@ -13,6 +13,22 @@ class DailyReportController extends Controller
     }
 	
     /**
+	 * Check User Permission to prevent overreach
+	 *
+	 * @param int $weekly_report_id ID of the weekly report
+	 */
+	private function check_user_permission($weekly_report_id){
+		$weekly_report = $this->model->getWeeklyReportDetailById($weekly_report_id);
+		if(isCurrentUser($weekly_report[0]['submitter'])){
+			return true;
+		}else {
+			$_SESSION['alert'] = 'You don\'t have permission!';
+			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+			exit();
+		}
+	}
+	
+    /**
 	 * Display weekly report detail page
 	 *
 	 * @param int $weekly_report_id ID of the weekly report
@@ -37,10 +53,12 @@ class DailyReportController extends Controller
 	public function redirect_to_create_page($weekly_report_id)
 	{
 		error_log('WeeklyReportController::redirect_to_create_page');
-		$data = array(
-			'weekly_report_id' => $weekly_report_id
-		);
-		$this->render('daily_report_form', $data);
+		if($this->check_user_permission($weekly_report_id)){
+			$data = array(
+				'weekly_report_id' => $weekly_report_id
+			);
+			$this->render('daily_report_form', $data);
+		}
 	}
 
 	/**
@@ -52,12 +70,14 @@ class DailyReportController extends Controller
 	public function redirect_to_modify_page($daily_report_id, $weekly_report_id)
 	{
 		error_log('WeeklyReportController::redirect_to_modify_page');
-		$daily_report = $this->model->getDailyReportDetailById($daily_report_id);
-		$data = array(
-			'daily_report' => $daily_report,
-			'weekly_report_id' => $weekly_report_id
-		);
-		$this->render('daily_report_form', $data);
+		if($this->check_user_permission($weekly_report_id)){
+			$daily_report = $this->model->getDailyReportDetailById($daily_report_id);
+			$data = array(
+				'daily_report' => $daily_report,
+				'weekly_report_id' => $weekly_report_id
+			);
+			$this->render('daily_report_form', $data);
+		}
 	}
 
 	/**
@@ -71,15 +91,17 @@ class DailyReportController extends Controller
 		$action_type = $_POST['action_type'];
 		$content = $_POST['content'];
 		$weekly_report_id = $_POST['weekly_report_id'];
-		$result = $this->model->createDailyReport($date, $action_type, $content, $weekly_report_id);
-		if ($result) {
-			$_SESSION['alert'] = 'Create detail successfully';
-			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
-			exit();
-		} else {
-			$_SESSION['alert'] = 'Failed to create detail';
-			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
-			exit();
+		if($this->check_user_permission($weekly_report_id)){
+			$result = $this->model->createDailyReport($date, $action_type, $content, $weekly_report_id);
+			if ($result) {
+				$_SESSION['alert'] = 'Create detail successfully';
+				header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+				exit();
+			} else {
+				$_SESSION['alert'] = 'Failed to create detail';
+				header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+				exit();
+			}
 		}
 	}
 
@@ -94,17 +116,18 @@ class DailyReportController extends Controller
 		$content = $_POST['content'];
 		$daily_report_id = $_POST['daily_report_id'];
 		$weekly_report_id = $_POST['weekly_report_id'];
-        $result = $this->model->updateDailyReport($date, $action_type, $content, $daily_report_id);
-		if ($result) {
-			$_SESSION['alert'] = 'Modify detail successfully';
-			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
-			exit();
-		} else {
-			$_SESSION['alert'] = 'Failed to modify detail';
-			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
-			exit();
+		if($this->check_user_permission($weekly_report_id)){
+			$result = $this->model->updateDailyReport($date, $action_type, $content, $daily_report_id);
+			if ($result) {
+				$_SESSION['alert'] = 'Modify detail successfully';
+				header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+				exit();
+			} else {
+				$_SESSION['alert'] = 'Failed to modify detail';
+				header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+				exit();
+			}
 		}
-		
     }
 
 	/**
@@ -115,16 +138,18 @@ class DailyReportController extends Controller
 	 */
 	public function delete_daily_report($daily_report_id, $weekly_report_id) {
 		error_log('WeeklyReportController::delete_daily_report');
-		$result = $this->model->deleteDailyReport($daily_report_id);
-		if ($result) {
-			$_SESSION['alert'] = 'Delete detail successfully';
-			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
-			exit();
-		} else {
-			$_SESSION['alert'] = 'Failed to delete detail';
-			header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
-			exit();
+		if($this->check_user_permission($weekly_report_id)){
+			$result = $this->model->deleteDailyReport($daily_report_id);
+			if ($result) {
+				$_SESSION['alert'] = 'Delete detail successfully';
+				header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+				exit();
+			} else {
+				$_SESSION['alert'] = 'Failed to delete detail';
+				header('Location: '. Domain_Name . 'WeeklyReportDetail/' . $weekly_report_id);
+				exit();
+			}
 		}
     }
-
+	
 }

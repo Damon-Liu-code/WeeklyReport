@@ -1,6 +1,9 @@
 # WeeklyReport
 Weekly Report System based on PHP 7.4.
 
+## Project Address
+1.13.17.128:62
+
 ## Project Summary
 | Project name | Weekly Report system |
 | -------- | ------- |

@@ -22,8 +22,8 @@ class DailyReportModel extends Model {
 		$data = array(
 			'weekly_report_id' => $weekly_report_id
 		);
-		$order_by = 'date ASC';
-		$result = $this->db->select($table, $target, $data);
+		$order_by = 'date DESC';
+		$result = $this->db->select($table, $target, $data, $order_by);
 		if (!empty($result)) {
 			return $result;
 		}

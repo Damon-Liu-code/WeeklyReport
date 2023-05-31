@@ -18,7 +18,10 @@ class WeeklyReportModel extends Model {
 	public function getWeeklyReports()
 	{
 		$table = 'weekly_report';
-		return $this->db->select($table);
+		$target = '*';
+		$data = null;
+		$order_by = 'end_date DESC';
+		return $this->db->select($table, $target, $data, $order_by);
 	}
 
    /**
@@ -35,8 +38,7 @@ class WeeklyReportModel extends Model {
 			'start_date' => $startDate,
 			'submitter' => $current_user,
 		);
-		$order_by = 'end_date DESC';
-		$result = $this->db->select($table, $target, $data, $order_by);
+		$result = $this->db->select($table, $target, $data);
 		return $result[0]['count'] > 0;
 	}
 

@@ -31,7 +31,7 @@ class WeeklyReportController extends Controller
         error_log('WeeklyReportController::create');
         session_start();
         $current_user = $_SESSION['username'];
-        $startDate = date('Y-m-d', strtotime('last Monday'));
+        $startDate = date('Y-m-d', strtotime('Monday'));
         if (!$this->model->isWeeklyReportCreated($current_user, $startDate)) {
             $endDate = date('Y-m-d', strtotime('next Sunday'));
             $submitDateTime = date('Y-m-d H:i:s');
